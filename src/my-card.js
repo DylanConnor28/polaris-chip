@@ -14,25 +14,78 @@ export class MyCard extends LitElement {
 
   constructor() {
     super();
-    this.title = "My card";
+    this.title = "Surprised Pikachu!!!";
+    this.image = "";
+    this.description = "";
+    this.link = "#";
   }
 
   static get styles() {
     return css`
       :host {
         display: block;
+        padding: 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        max-width: 300px;
+      }
+
+      .card {
+        width: 100%;
+        border: 3px solid;
+        margin: 18px;
+        padding: 10px;
+      }
+
+      .card-image {
+        width: 100%;
+        border-radius: 8px;
+      }
+
+      .card-text {
+        margin-top: 12px;
+      }
+
+      .button {
+        margin-top: 12px;
+      }
+
+      @media (max-width: 800px) and (min-width: 500px) {
+        .button {
+          display: block;
+        }
+      }
+
+      @media (max-width: 500px), (min-width: 800px) {
+        .button {
+          display: none;
+        }
       }
     `;
-  }
-
-  render() {
-    return html`<div>${this.title}</div>`;
   }
 
   static get properties() {
     return {
       title: { type: String },
+      image: { type: String },
+      description: { type: String },
+      link: { type: String },
     };
+  }
+
+  render() {
+    return html`
+      <div class="card">
+        <img class="card-image" src="https://wallpapercave.com/wp/wp5338281.jpg" alt="Card Title">
+        <div class="card-text">
+          <h4 class="card-title">${this.title}</h4>
+          <div class="card-details">${this.description}</div>
+        </div>
+        <a href="https://hax.psu.edu">
+          <button class="button">Details</button>
+        </a>
+      </div>
+    `;
   }
 }
 

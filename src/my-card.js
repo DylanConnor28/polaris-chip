@@ -14,27 +14,44 @@ export class MyCard extends LitElement {
 
   constructor() {
     super();
-    this.title = "Surprised Pikachu!!!";
+    this.title = "";
     this.image = "";
     this.description = "";
     this.link = "#";
+    this.fancy = false;
   }
 
   static get styles() {
     return css`
       :host {
         display: block;
-        padding: 16px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        max-width: 300px;
       }
 
+      :host([fancy]) {
+        display: block;
+        background-color: pink;
+        border: 2px solid fuchsia;
+        box-shadow: 10px 5px 5px red;
+      }
+
+      
+      details summary {
+        text-align: left;
+        font-size: 20px;
+        padding: 8px 0;
+      }
+
+      details[open] summary {
+        font-weight: bold;
+      }
+  
+    
       .card {
         width: 100%;
         border: 3px solid;
         margin: 18px;
         padding: 10px;
+        max-width: 300px;
       }
 
       .card-image {
@@ -70,23 +87,40 @@ export class MyCard extends LitElement {
       image: { type: String },
       description: { type: String },
       link: { type: String },
+      fancy: { type: Boolean, reflect: true },
     };
   }
 
   render() {
     return html`
       <div class="card">
-        <img class="card-image" src="https://wallpapercave.com/wp/wp5338281.jpg" alt="Card Title">
+        <img class="card-image" src="${this.image}" alt="${this.title}">
         <div class="card-text">
           <h4 class="card-title">${this.title}</h4>
-          <div class="card-details">${this.description}</div>
+          <details ?open="${this.fancy}" @toggle="${this.openChanged}">
+          <summary>Description</summary>
+          <div>
+            <slot>${this.description}</slot>
+          </div>
+          <div class="card-details">${this.description}</div></details>
         </div>
-        <a href="https://hax.psu.edu">
+        <a href="${this.link}">
           <button class="button">Details</button>
         </a>
       </div>
     `;
   }
+
+  openChanged(e) {
+    console.log(e.newState);
+    if (e.newState === "open") {
+      this.fancy = true;
+    }
+    else {
+      this.fancy = false;
+    }
+  }
 }
+
 
 globalThis.customElements.define(MyCard.tag, MyCard);
